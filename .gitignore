@@ -1,0 +1,63 @@
+# If you prefer the allow list template instead of the deny list, see community template:
+# https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
+#
+# Binaries for programs and plugins
+/forge-ws
+/forge-ws-api
+/forge-ws-controller
+
+/bin/*
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+# Go workspace file
+go.work
+
+build/*
+.ignore*
+.kindenv.kubeconfig.yaml
+tmp/
+.forge/
+.envrc
+/forge
+/go-build
+/forge-e2e
+/build-container
+/container-build
+/go-gen-openapi
+/go-dependency-detector
+/testenv
+/testenv-helm-install
+/testenv-lcr
+/go-gen-mocks
+/go-gen-mocks-dep-detector
+/go-gen-openapi-dep-detector
+/go-gen-protobuf
+/go-gen-bpf
+/testenv-lcr
+/testenv-kind
+/testenv-stub
+/go-verify-license
+/go-test
+/parallel-*
+/generic-test-runner
+/go-lint
+/go-lint-licenses
+/go-lint-tags
+/test-report
+/forge-dev
+/generic-builder
+/go-format
+

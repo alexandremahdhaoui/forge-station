@@ -1,0 +1,197 @@
+# Copyright 2024 Alexandre Mahdhaoui
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: v1
+name: forge-workspace
+artifactStorePath: .forge/artifact-store.yaml
+envFile: .envrc
+
+# ----------------------------------------------------------------------
+# -- test defines the test specifications
+test:
+  # Verify all test files have build tags
+  - name: lint-tags
+    runner: "go://go-lint-tags"
+
+  # Verify license headers
+  - name: lint-licenses
+    runner: "go://go-lint-licenses"
+
+  # Linting
+  - name: lint
+    runner: go://go-lint
+
+  # Unit tests
+  - name: unit
+    runner: go://go-test
+
+  # E2E tests (requires test environment)
+  - name: e2e
+    testenv: alias://e2e-testenv
+    runner: go://go-test
+    spec:
+      timeout: "20m"
+
+# ----------------------------------------------------------------------
+# -- build defines the artifacts to build
+build:
+  # Code generation: deepcopy, CRDs, mocks
+  - name: generate-all
+    src: .
+    engine: alias://generate-all
+
+  # OpenAPI generation for REST API
+  - name: generate-openapi
+    src: .
+    engine: alias://go-gen-openapi-with-license
+    spec:
+      sourceFile: ./api/forge-workspace.v1.yaml
+      destinationDir: ./internal/driver
+      server:
+        enabled: true
+        packageName: rest
+
+  # Code quality
+  - name: format
+    src: .
+    engine: go://go-format
+
+  # Binaries
+  - name: forge-ws-controller
+    src: ./cmd/forge-ws-controller
+    dest: ./build/bin
+    engine: go://go-build
+
+  - name: forge-ws-api
+    src: ./cmd/forge-ws-api
+    dest: ./build/bin
+    engine: go://go-build
+
+  - name: forge-ws
+    src: ./cmd/forge-ws
+    dest: ./build/bin
+    engine: go://go-build
+
+  # Containers
+  - name: forge-ws-controller-image
+    src: ./containers/forge-ws-controller/Containerfile
+    engine: go://container-build
+    spec:
+      dependsOn:
+        - engine: go://go-dependency-detector
+          spec:
+            filepath: ./cmd/forge-ws-controller/main.go
+            funcName: main
+
+  - name: forge-ws-api-image
+    src: ./containers/forge-ws-api/Containerfile
+    engine: go://container-build
+    spec:
+      dependsOn:
+        - engine: go://go-dependency-detector
+          spec:
+            filepath: ./cmd/forge-ws-api/main.go
+            funcName: main
+
+# ----------------------------------------------------------------------
+# -- engines defines reusable build engines with custom configurations
+engines:
+  # OpenAPI generation with license headers
+  - alias: go-gen-openapi-with-license
+    type: builder
+    builder:
+      - engine: go://go-gen-openapi
+      - engine: go://generic-builder
+        spec:
+          command: "bash"
+          args: ["./hack/add-license-headers.sh"]
+
+  # All code generation: controller-gen, go generate, mockery
+  - alias: generate-all
+    type: builder
+    builder:
+      - engine: go://generic-builder
+        spec:
+          command: "go"
+          args: ["generate", "./pkg/v1alpha1/..."]
+      - engine: go://generic-builder
+        spec:
+          command: "go"
+          args: ["run", "sigs.k8s.io/controller-tools/cmd/controller-gen@v0.19.0", "object:headerFile=./hack/boilerplate.go.txt", "paths=./pkg/v1alpha1/..."]
+      - engine: go://generic-builder
+        spec:
+          command: "go"
+          args: ["run", "sigs.k8s.io/controller-tools/cmd/controller-gen@v0.19.0", "crd:headerFile=./hack/boilerplate.yaml.txt", "paths=./pkg/v1alpha1/...", "output:crd:dir=./charts/forge-workspace-crds/templates/crds"]
+      - engine: go://generic-builder
+        spec:
+          command: "rm"
+          args: ["-rf", "./internal/util/mocks"]
+      - engine: go://go-gen-mocks
+
+  # E2E test environment: Kind cluster + local container registry + Helm charts
+  - alias: e2e-testenv
+    type: testenv
+    testenv:
+      - engine: go://testenv-kind
+      - engine: go://testenv-lcr
+        spec:
+          enabled: true
+          namespace: testenv-lcr
+          imagePullSecretName: testenv-lcr-credentials
+          imagePullSecretNamespaces:
+            - default
+            - forge-workspace-system
+          images:
+            - name: local://forge-ws-controller-image:latest
+            - name: local://forge-ws-api-image:latest
+      - engine: go://testenv-helm-install
+        spec:
+          charts:
+            - name: forge-workspace-crds
+              sourceType: local
+              path: ./charts/forge-workspace-crds
+              namespace: default
+              releaseName: forge-workspace-crds
+              createNamespace: false
+              timeout: "5m"
+
+            - name: forge-workspace-controller
+              sourceType: local
+              path: ./charts/forge-workspace-controller
+              namespace: forge-workspace-system
+              releaseName: forge-workspace-controller
+              createNamespace: true
+              timeout: "5m"
+              values:
+                image:
+                  repository: "{{.Env.TESTENV_LCR_FQDN}}/forge-ws-controller-image"
+                  tag: latest
+                  pullPolicy: IfNotPresent
+                imagePullSecrets:
+                  - name: testenv-lcr-credentials
+
+            - name: forge-workspace-api
+              sourceType: local
+              path: ./charts/forge-workspace-api
+              namespace: forge-workspace-system
+              releaseName: forge-workspace-api
+              createNamespace: false
+              timeout: "5m"
+              values:
+                image:
+                  repository: "{{.Env.TESTENV_LCR_FQDN}}/forge-ws-api-image"
+                  tag: latest
+                  pullPolicy: IfNotPresent
+                imagePullSecrets:
+                  - name: testenv-lcr-credentials

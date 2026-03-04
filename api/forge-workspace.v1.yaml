@@ -1,0 +1,315 @@
+openapi: "3.0.3"
+info:
+  title: forge-workspace API
+  description: REST API for managing workspaces and portfolios.
+  version: v1.0.0
+
+paths:
+  /api/v1/workspaces:
+    post:
+      operationId: createWorkspace
+      summary: Create a new workspace
+      parameters:
+        - name: namespace
+          in: query
+          required: false
+          schema:
+            type: string
+            default: "default"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWorkspaceRequest'
+      responses:
+        "201":
+          description: Workspace created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceDetail'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    get:
+      operationId: listWorkspaces
+      summary: List all workspaces
+      parameters:
+        - name: namespace
+          in: query
+          required: false
+          schema:
+            type: string
+            default: "default"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WorkspaceSummary'
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/workspaces/{name}:
+    get:
+      operationId: getWorkspace
+      summary: Get workspace details
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: namespace
+          in: query
+          required: false
+          schema:
+            type: string
+            default: "default"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceDetail'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      operationId: deleteWorkspace
+      summary: Delete a workspace
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: namespace
+          in: query
+          required: false
+          schema:
+            type: string
+            default: "default"
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/workspaces/{name}/suspend:
+    put:
+      operationId: suspendWorkspace
+      summary: Suspend a workspace
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: namespace
+          in: query
+          required: false
+          schema:
+            type: string
+            default: "default"
+      responses:
+        "200":
+          description: Workspace suspended
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceDetail'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/workspaces/{name}/resume:
+    put:
+      operationId: resumeWorkspace
+      summary: Resume a workspace
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: namespace
+          in: query
+          required: false
+          schema:
+            type: string
+            default: "default"
+      responses:
+        "200":
+          description: Workspace resumed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceDetail'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/portfolios:
+    get:
+      operationId: listPortfolios
+      summary: List all portfolios
+      parameters:
+        - name: namespace
+          in: query
+          required: false
+          schema:
+            type: string
+            default: "default"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PortfolioSummary'
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/portfolios/{name}:
+    get:
+      operationId: getPortfolio
+      summary: Get portfolio details
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: namespace
+          in: query
+          required: false
+          schema:
+            type: string
+            default: "default"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortfolioSummary'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    # -----------------------------------------------------------------
+    # Request schemas
+    # -----------------------------------------------------------------
+    CreateWorkspaceRequest:
+      x-go-type: service.CreateWorkspaceRequest
+      x-go-type-import:
+        path: github.com/alexandremahdhaoui/forge-workspace/internal/controller/service
+      type: object
+
+    # -----------------------------------------------------------------
+    # Workspace response schemas
+    # -----------------------------------------------------------------
+    WorkspaceDetail:
+      x-go-type: service.WorkspaceDetail
+      x-go-type-import:
+        path: github.com/alexandremahdhaoui/forge-workspace/internal/controller/service
+      type: object
+
+    WorkspaceSummary:
+      x-go-type: service.WorkspaceSummary
+      x-go-type-import:
+        path: github.com/alexandremahdhaoui/forge-workspace/internal/controller/service
+      type: object
+
+    # -----------------------------------------------------------------
+    # Portfolio response schemas
+    # -----------------------------------------------------------------
+    PortfolioSummary:
+      x-go-type: v1alpha1.Portfolio
+      x-go-type-import:
+        path: github.com/alexandremahdhaoui/forge-workspace/pkg/v1alpha1
+      type: object
+
+    # -----------------------------------------------------------------
+    # Error response (generated, no x-go-type)
+    # -----------------------------------------------------------------
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
