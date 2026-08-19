@@ -7,7 +7,7 @@ package mockcontroller
 import (
 	"context"
 
-	"github.com/alexandremahdhaoui/forge-workspace/internal/controller/service"
+	"github.com/alexandremahdhaoui/forge-station/internal/controller/service"
 	mock "github.com/stretchr/testify/mock"
 )
 

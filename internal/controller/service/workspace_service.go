@@ -18,8 +18,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/alexandremahdhaoui/forge-workspace/internal/adapter"
-	v1alpha1 "github.com/alexandremahdhaoui/forge-workspace/pkg/v1alpha1"
+	"github.com/alexandremahdhaoui/forge-station/internal/adapter"
+	v1alpha1 "github.com/alexandremahdhaoui/forge-station/pkg/v1alpha1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )

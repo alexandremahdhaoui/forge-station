@@ -31,8 +31,8 @@ import (
 	"path"
 	"strings"
 
-	"github.com/alexandremahdhaoui/forge-workspace/internal/controller/service"
-	"github.com/alexandremahdhaoui/forge-workspace/pkg/v1alpha1"
+	"github.com/alexandremahdhaoui/forge-station/internal/controller/service"
+	"github.com/alexandremahdhaoui/forge-station/pkg/v1alpha1"
 	"github.com/getkin/kin-openapi/openapi3"
 	"github.com/oapi-codegen/runtime"
 	strictnethttp "github.com/oapi-codegen/runtime/strictmiddleware/nethttp"

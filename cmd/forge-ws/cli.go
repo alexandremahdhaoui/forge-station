@@ -22,7 +22,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/alexandremahdhaoui/forge-workspace/internal/controller/service"
+	"github.com/alexandremahdhaoui/forge-station/internal/controller/service"
 )
 
 // runCLI parses subcommands and delegates to the workspace service.

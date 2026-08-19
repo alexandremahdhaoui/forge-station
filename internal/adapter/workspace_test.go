@@ -20,7 +20,7 @@ import (
 	"context"
 	"testing"
 
-	v1alpha1 "github.com/alexandremahdhaoui/forge-workspace/pkg/v1alpha1"
+	v1alpha1 "github.com/alexandremahdhaoui/forge-station/pkg/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"

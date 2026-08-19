@@ -1,4 +1,4 @@
-module github.com/alexandremahdhaoui/forge-workspace
+module github.com/alexandremahdhaoui/forge-station
 
 go 1.25.7
 

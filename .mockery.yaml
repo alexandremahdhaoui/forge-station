@@ -19,14 +19,14 @@ template-data:
 
 packages:
   # internal/adapter
-  github.com/alexandremahdhaoui/forge-workspace/internal/adapter:
+  github.com/alexandremahdhaoui/forge-station/internal/adapter:
     config:
       all: true
       dir: internal/util/mocks/mockadapter
       pkgname: mockadapter
 
   # internal/controller/service
-  github.com/alexandremahdhaoui/forge-workspace/internal/controller/service:
+  github.com/alexandremahdhaoui/forge-station/internal/controller/service:
     config:
       all: true
       dir: internal/util/mocks/mockcontroller

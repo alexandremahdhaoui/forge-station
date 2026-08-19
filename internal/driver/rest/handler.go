@@ -17,7 +17,7 @@ package rest
 import (
 	"context"
 
-	"github.com/alexandremahdhaoui/forge-workspace/internal/controller/service"
+	"github.com/alexandremahdhaoui/forge-station/internal/controller/service"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 )
 

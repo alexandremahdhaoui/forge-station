@@ -19,7 +19,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/alexandremahdhaoui/forge-workspace/internal/controller/service"
+	"github.com/alexandremahdhaoui/forge-station/internal/controller/service"
 	"github.com/alexandremahdhaoui/forge/pkg/mcpserver"
 	"github.com/alexandremahdhaoui/forge/pkg/mcputil"
 	"github.com/modelcontextprotocol/go-sdk/mcp"

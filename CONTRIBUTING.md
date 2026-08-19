@@ -6,7 +6,7 @@
 
 ```bash
 # Clone
-git clone https://github.com/alexandremahdhaoui/forge-workspace.git
+git clone https://github.com/alexandremahdhaoui/forge-station.git
 cd forge-workspace
 
 # Generate code (CRDs, deepcopy, mocks, OpenAPI)
