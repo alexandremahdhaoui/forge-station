@@ -17,7 +17,7 @@ package adapter
 import (
 	"context"
 
-	v1alpha1 "github.com/alexandremahdhaoui/forge-workspace/pkg/v1alpha1"
+	v1alpha1 "github.com/alexandremahdhaoui/forge-station/pkg/v1alpha1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"

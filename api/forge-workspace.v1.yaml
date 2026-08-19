@@ -276,7 +276,7 @@ components:
     CreateWorkspaceRequest:
       x-go-type: service.CreateWorkspaceRequest
       x-go-type-import:
-        path: github.com/alexandremahdhaoui/forge-workspace/internal/controller/service
+        path: github.com/alexandremahdhaoui/forge-station/internal/controller/service
       type: object
 
     # -----------------------------------------------------------------
@@ -285,13 +285,13 @@ components:
     WorkspaceDetail:
       x-go-type: service.WorkspaceDetail
       x-go-type-import:
-        path: github.com/alexandremahdhaoui/forge-workspace/internal/controller/service
+        path: github.com/alexandremahdhaoui/forge-station/internal/controller/service
       type: object
 
     WorkspaceSummary:
       x-go-type: service.WorkspaceSummary
       x-go-type-import:
-        path: github.com/alexandremahdhaoui/forge-workspace/internal/controller/service
+        path: github.com/alexandremahdhaoui/forge-station/internal/controller/service
       type: object
 
     # -----------------------------------------------------------------
@@ -300,7 +300,7 @@ components:
     PortfolioSummary:
       x-go-type: v1alpha1.Portfolio
       x-go-type-import:
-        path: github.com/alexandremahdhaoui/forge-workspace/pkg/v1alpha1
+        path: github.com/alexandremahdhaoui/forge-station/pkg/v1alpha1
       type: object
 
     # -----------------------------------------------------------------

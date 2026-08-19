@@ -17,8 +17,8 @@ package service
 import (
 	"context"
 
-	"github.com/alexandremahdhaoui/forge-workspace/internal/adapter"
-	v1alpha1 "github.com/alexandremahdhaoui/forge-workspace/pkg/v1alpha1"
+	"github.com/alexandremahdhaoui/forge-station/internal/adapter"
+	v1alpha1 "github.com/alexandremahdhaoui/forge-station/pkg/v1alpha1"
 )
 
 // PortfolioService provides business logic for portfolio operations.

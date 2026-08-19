@@ -20,7 +20,7 @@ import (
 	"os"
 	"testing"
 
-	v1alpha1 "github.com/alexandremahdhaoui/forge-workspace/pkg/v1alpha1"
+	v1alpha1 "github.com/alexandremahdhaoui/forge-station/pkg/v1alpha1"
 	"k8s.io/apimachinery/pkg/runtime"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	clientgoscheme "k8s.io/client-go/kubernetes/scheme"

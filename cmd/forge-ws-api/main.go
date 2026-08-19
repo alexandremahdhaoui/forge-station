@@ -22,10 +22,10 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/alexandremahdhaoui/forge-workspace/internal/adapter"
-	"github.com/alexandremahdhaoui/forge-workspace/internal/controller/service"
-	restdriver "github.com/alexandremahdhaoui/forge-workspace/internal/driver/rest"
-	v1alpha1 "github.com/alexandremahdhaoui/forge-workspace/pkg/v1alpha1"
+	"github.com/alexandremahdhaoui/forge-station/internal/adapter"
+	"github.com/alexandremahdhaoui/forge-station/internal/controller/service"
+	restdriver "github.com/alexandremahdhaoui/forge-station/internal/driver/rest"
+	v1alpha1 "github.com/alexandremahdhaoui/forge-station/pkg/v1alpha1"
 
 	"k8s.io/apimachinery/pkg/runtime"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
